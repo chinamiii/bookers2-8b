@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookers2</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+   <header>
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <div class="container">
+         <a class="navbar-brand" href="/"><span>Bookers</span></a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+
+         <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+       <ul class="navbar-nav ml-auto">
+
+        <% if user_signed_in? %>
+
+         <li>
+            <%= link_to user_path(current_user) do %>
+              <i class="fas fa-home nav-link text-light"> Home</i>
+            <% end %>
+         </li>
+         <li>
+           <%= link_to users_path do %>
+              <i class="fas fa-users nav-link text-light"> Users</i>
+           <% end %>
+         </li>
+         <li>
+           <%= link_to books_path do %>
+              <i class="fas fa-book-open nav-link text-light"> Books</i>
+           <% end %>
+         </li>
+         <li>
+           <%= link_to destroy_user_session_path, method: :delete do %>
+              <i class="fas fa-sign-out-alt nav-link text-light"> logout</i>
+           <% end %>
+         </li>
+        <% else %>
+         <li>
+           <%= link_to root_path do %>
+              <i class="fas fa-home nav-link text-light"> Home</i>
+           <% end %>
+         </li>
+         <li>
+           <%= link_to about_path do %>
+              <i class="fas fa-link nav-link text-light"> About</i>
+           <% end %>
+         </li>
+         <li>
+           <%= link_to new_user_registration_path do %>
+              <i class="fas fa-user-plus nav-link text-light"> sign up</i>
+           <% end %>
+         </li>
+         <li>
+           <%= link_to new_user_session_path do %>
+              <i class="fas fa-sign-in-alt nav-link text-light"> login</i>
+           <% end %>
+         </li>
+
+        </ul>
+
+        <% end %>
+      </div>
+    </div>
+  </header>
+
+
+  　<% if flash[:notice] %>
+      <p id="notice"><%= flash[:notice] %></p>
+    <% end %>
+    
+    
+    <% if user_signed_in? %>
+    
+      <%= form_tag(search_path, method: :get) do %>
+      
+        <%= text_field_tag (:word) %>
+        <%= select_tag 'range' ,options_for_select([['User', '1'], ['Book', '2']]) %>
+        <%= select_tag 'search', options_for_select([["前方一致","forward_match"], ["後方一致","backward_match"], ["完全一致","perfect_match"], ["部分一致","partial_match"]]) %>
+        <%= submit_tag "検索" %>
+        
+      <% end %>
+    <% end %>
+
+
+    <%= yield %>
+
+
+    <footer>
+      <div class="container mt-5">
+        <div class="row">
+          <div class ="mx-auto">CopyRight Infratop.inc</div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

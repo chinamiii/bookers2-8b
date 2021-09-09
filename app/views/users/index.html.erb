@@ -1,0 +1,56 @@
+<div class="container mt-3">
+  <%= render 'books/errors', model: @newbook %>
+  <div class="row">
+
+    <div class="col-md-3">
+      <%= render 'users/user', user: current_user %>
+
+      <%= render 'books/book', book: @newbook %>
+    </div>
+
+      <div class="col-md-8 offset-md-1">
+
+        <h2>Users</h2>
+
+        <table class='table table-hover table-inverse'>
+          <thead>
+            <tr>
+              <th>image</th>
+
+              <th>name</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+
+              <tbody>
+
+                <% @users.each do |user| %>
+                 <tr>
+
+                   <td><%= attachment_image_tag user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "40x40" %></td>
+
+                   <td><%= user.name %></td>
+                   <td>フォロー数:<%= user.followings.count %></td>
+                   <td>フォロワー数:<%= user.followers.count %></td>
+
+                    <td>
+                     <% if current_user != user %>
+
+                       <% if current_user.following?(user) %>
+                         <%= link_to "フォロー外す", user_relationship_path(user_id: user, id: user), method: :delete %>
+                       <% else %>
+                         <%= link_to "フォローする", user_relationships_path(user.id), method: :post %>
+                       <% end %>
+
+                     <% end %>
+                    </td>
+
+                   <td><%= link_to "Show",user_path(user) %></td>
+
+                 </tr>
+                <% end %>
+              </tbody>
+          </table>
+    </div>
+  </div>
+</div>

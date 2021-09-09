@@ -1,0 +1,27 @@
+<h1>DM</h1>
+
+
+<% @entries.each do |e| %> <!--@entriesの相互フォロワー同士に情報をとってくる-->
+  <h5><strong><a href="/users/<%= e.user.id %>"><%= e.user.name%></a></strong></h5>
+  <!--userとアソシエーション組んでるからuser.idやnameがとってこれる-->
+<% end %>
+
+<hr>
+<% if @messages.present? %> <!--メッセージ入っている?-->
+  <% @messages.each do |m| %>
+    <strong><%= m.content %></strong> 
+    <small>by <strong><a href="/users/<%= m.user_id %>"><%= m.user.name %>さん</a></strong></small>
+    <hr>
+  <% end %>
+<% else %>
+  <h3 class="text-center">メッセージはまだありません</h3>
+<% end %>
+
+<%= form_for @message do |f| %>
+  <%= f.text_field :content, :placeholder => "メッセージを入力して下さい" , :size => 70 %> <!--form_forを使って、パラメーターとして送る-->
+  <%= f.hidden_field :room_id, :value => @room.id %> <!--：room_idのバリューとして、そのチャットルームでのidを取得-->
+  <br>
+  <%= f.submit "投稿する" %>
+<% end %>
+
+<%= link_to "ユーザー一覧に戻る", users_path %>

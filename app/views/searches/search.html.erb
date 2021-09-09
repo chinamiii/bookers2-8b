@@ -1,0 +1,55 @@
+
+<!--books一覧 -->
+
+<% if @range == '2' %>
+<h2>Books search for "<%= params[:word] %>"</h2>
+<table class="table table-hover table-inverse">
+  <thead>
+    <tr>
+     <th></th>
+     <th>Title</th>
+     <th>Opinion</th>
+     <th colspan="3"></th>
+    </tr>
+  </thead>
+
+
+  <tbody>
+     <% @book.each do |book| %>
+     <tr>
+      <td>
+       <%= link_to(book.user) do %>
+       <%= attachment_image_tag book.user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "50x50" %>
+       <% end %>
+      </td>
+      <td>
+       <%= link_to book.title, book, class: "book_#{book.id}" %>
+      </td>
+      <td><%= book.body %></td>
+     </tr>
+     <% end %>
+  </tbody>
+</table>
+
+<% else %>
+<h2>Users search for "<%= params[:word] %>"</h2>
+<table class="table table-hover table-inverse">
+  <thead>
+     <tr>
+      <th>image</th>
+      <th>name</th>
+      <th colspan="3"></th>
+     </tr>
+   </thead>
+
+   <tbody>
+    <% @user.each do |user| %>
+     <tr>
+      <td><%= attachment_image_tag user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "50x50" %></td>
+      <td><%= user.name%></td>
+      <td><%= link_to "Show", user, class: "user_#{user.id}" %></td>
+     </tr>
+    <% end %>
+   </tbody>
+</table>
+<% end %>

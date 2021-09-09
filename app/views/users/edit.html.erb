@@ -1,0 +1,35 @@
+<div class="container ">
+  <div class="row">
+
+    <div class="col-md-5 mx-auto mt-3">
+
+       <h2>User info</h2>
+
+       <%= render 'books/errors', model: @user %>
+
+      <%= form_with model:@user, local:true do |f| %>
+
+       <div class="form-group mb-3">
+            <%= f.label :Name %>
+            <%= f.text_field :name, class:"form-control" %>
+       </div>
+
+          <div class="form-groupe mb-3">
+             <%= f.label :Image %>
+             <%= f.attachment_field :profile_image, placeholder: "プロフィール画像",class:"form-control-file" %>
+          </div>
+
+            <div class="form-group mb-3">
+              <%= f.label :Introduction %>
+              <%= f.text_field :introduction, class:"form-control" %>
+            </div>
+
+               <div class="actions mb-3">
+                  <%= f.submit "Update User", class:"btn btn btn-secondary" %>
+               </div>
+
+
+      <% end %>
+    </div>
+  </div>
+</div>

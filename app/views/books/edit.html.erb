@@ -1,0 +1,35 @@
+<div class="container">
+  <%= render 'books/errors', model: @book %>
+  <div class="row">
+    <div class="col-md-5 mx-auto mt-3">
+
+      <h2>Editing Book</h2>
+
+      <%= form_with model:@book, local:true do |f| %>
+
+        <div class="form mb-3">
+          <%= f.label :Title %>
+          <%= f.text_field :title, class:"form-control" %>
+        </div>
+
+         <div class="form mb-3">
+           <%= f.label :Opinion %>
+           <%= f.text_field :body, class:"form-control" %>
+         </div>
+
+          <div class="action md-3">
+             <%= f.submit "Update Book", class:"btn btn btn-success" %>
+          </div>
+      <% end %>
+
+        <div class="tag mt-3">
+
+          <%= link_to "Show", book_path(@book.id) %>
+           |
+          <%= link_to "Back", books_path %>
+        </div>
+
+
+    </div>
+  </div>
+</div>

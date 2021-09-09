@@ -1,0 +1,134 @@
+<div class="container mt-3">
+  <%= render 'books/errors', model: @newbook %>
+ <div class="row">
+
+  <div class="col-md-3">
+    <%= render 'users/user', user: @user %>
+     <%= render 'books/book', book: @newbook %>
+
+  </div>
+
+   <div class="col-md-8 offset-md-1">
+
+     <h2>Books</h2>
+
+      <table class='table table-hover table-inverse'>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Opinion</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+        <tbody>
+
+         <% @books.each do |book| %>
+
+            <tr>
+              <%= link_to user_path(@user) do %>
+                <td>
+                  <%= attachment_image_tag @user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "40x40" %>
+                </td>
+                <td><%= link_to book.title, book_path(book.id) %></td>
+                  <% end %>
+                <td><%= book.body %></td>
+                <td>
+                 コメント件数：<%= book.book_comments.count %>
+                </td>
+                <td>
+                 閲覧数:<%= book.impressions_count %>
+                </td>
+         <% end %>
+            </tr>
+        </tbody>
+      </table>
+
+
+      <h2>投稿数の前日比・前週比</h2>
+      <table class='table table-hover table-inverse'>
+          <thead>
+            <tr>
+              <th>今日の投稿数</th>
+              <th>昨日の投稿数</th>
+            　<th>前日比</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr>
+            <th><%= @today_book.count %></th>
+            <th><%= @yesterday_book.count %></th>
+            <td>
+              <% if @yesterday_book.count == 0 %>
+                 前日の投稿はなし
+              <% else %>
+       　       <% @the_day_before =   @today_book.count / @yesterday_book.count.to_f  %>
+               <%= (@the_day_before * 100).round %>%
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class='table table-hover table-inverse'>
+          <thead>
+            <tr>
+              <th>今週の投稿数</th>
+              <th>先週の投稿数</th>
+            　<th>先週比</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr>
+            <th><%= @this_week_book.count %></th>
+            <th><%= @last_week_book.count %></th>
+            <td>
+              <% if @last_week_book.count == 0 %>
+                先週の投稿はなし
+              <% else %>
+       　        <% @the_week_before = @this_week_book.count / @last_week_book.count.to_f  %>
+                <%= (@the_week_before * 100).round %>%
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>7日間分の投稿数</h2>
+      <table class='table table-hover table-inverse'>
+          <thead>
+            <tr>
+              <th>6日前</th>
+              <th>5日前</th>
+            　<th>4日前</th>
+            　<th>3日前</th>
+            　<th>2日前</th>
+            　<th>1日前</th>
+              <th>本日</th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr>
+            <th><%= @books.created_6days.count %></th>
+            <th><%= @books.created_5days.count %></th>
+            <th><%= @books.created_4days.count %></th>
+            <th><%= @books.created_3days.count %></th>
+            <th><%= @books.created_2days.count %></th>
+            <th><%= @yesterday_book.count %></th>
+            <th><%= @today_book.count %></th>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+
+
+
+   </div>
+ </div>
+</div>
+

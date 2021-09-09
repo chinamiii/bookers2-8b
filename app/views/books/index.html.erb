@@ -1,0 +1,62 @@
+<div class="container mt-3">
+    <%= render 'books/errors', model: @newbook %>
+
+  <div class="row">
+
+    <div class="col-md-3">
+
+       <%= render 'users/user', user: current_user %>
+       <%= render 'books/book', book: @newbook %>
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+
+        <h2>Books</h2>
+
+      <table class='table table-hover table-inverse'>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Opinion</th>
+              <th colspan="3"></th>
+            </tr>
+          </thead>
+        <tbody>
+
+
+
+          <% @books.each do |book| %>
+
+              <tr>
+                <td>
+                  <%= link_to user_path(book.user_id) do %>
+                    <%= attachment_image_tag book.user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "40x40" %>
+                  <% end %>
+                </td>
+                <td><%= link_to book.title, book_path(book.id) %></td>
+
+                <td><%= book.body %></td>
+
+                <td>
+                   <td id="favorite-btn_<%= book.id %>">
+                  <%= render "favorites/favorite-btn", book: book %>
+                </td>
+
+                <td>コメント数:<%= book.book_comments.count %></td>
+
+                <td>
+                 閲覧数:<%= book.impressions_count %>
+               </td>
+
+              </tr>
+          <% end %>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,70 @@
+<h2>User info</h2>
+
+  <%= attachment_image_tag user, :profile_image, format: "jpeg", fallback: "no_image.jpg", size: "100x100" %>
+  <table class="table">
+    <tbody>
+       <tr>
+         <th>name</th>
+         <th><%= user.name %></th>
+       </tr>
+         <th>introduction</th>
+         <th><%= user.introduction %></th>
+       </tr>
+       <tr>
+         <th>follows</th>
+         <th>
+           <%= link_to user_followings_path(user) do %>
+             <%= user.followings.count %>
+           <% end %>
+         </th>
+       </tr>
+       <tr>
+         <th>followers</th>
+         <th>
+           <%= link_to user_followers_path(user) do%>
+             <%= user.followers.count %>
+           <% end %>
+         </th>
+       </tr>
+    </tbody>
+  </table>
+  <tbody>
+   <tr>
+    <td>
+     <% if current_user != user %>
+
+       <% if current_user.following?(user) %>
+         <%= link_to "フォロー外す", user_relationship_path(user_id: user, id: user), method: :delete, class:"btn btn-sm btn-info" %>
+       <% else %>
+         <%= link_to "フォローする", user_relationships_path(user.id), method: :post, class:"btn btn-sm btn-success" %>
+       <% end %>
+
+        <% if (current_user.following? user) && (user.following? current_user) %> <!--相互フォロー-->
+          <% if @isRoom == true %>
+            <p class="user-show-room"><a href="/rooms/<%= @roomId %>" class="btn btn-primary btn-sm mt-3">チャットへ</a>
+          <% else %>
+            <%= form_for @room do |f| %> <!--親モデルのRoomsテーブル-->
+              <%= fields_for @entry do |e| %> <!--子モデルのEntriesテーブル-->
+                <%= e.hidden_field :user_id, value: user.id %> <!--Entriesテーブルのレコードにはuser_idを送る-->
+              <% end %>
+               <%= f.submit "チャットを始める", class:"btn btn-primary btn-sm user-show-chat mt-3"%>
+            <% end %>
+          <% end %>
+        <% end %>
+
+
+     <% end %>
+    </td>
+   </tr>
+  </tbody>
+
+
+      <% if current_user == user %>
+        <div class="row">
+          <%= link_to edit_user_path(user.id), class:"btn btn-outline-secondary btn-block" do %>
+      　    <i class="fas fa-user-cog"></i>
+          <% end %>
+        </div>
+      <% end %>
+
+
