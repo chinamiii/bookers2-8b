@@ -32,6 +32,11 @@ class UsersController < ApplicationController
 
     @this_week_book = @books.created_this_week
     @last_week_book = @books.created_last_week
+
+    @books_count = Book.group_by_day(:created_at).size
+        # bookの登録数グラフ出力　gem groupdateをインストールしないと上記の記述は使用不可
+    @book_today = Book.where(created_at: Date.today.all_day).count
+        # bookの1日の登録数
   end
 
 

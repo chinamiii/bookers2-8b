@@ -73,3 +73,7 @@ gem 'font-awesome-sass', '~> 5.13'
 
 gem 'impressionist', '~>1.6.1' #バージョンが違うから１.６.１追加
 
+
+gem 'groupdate'
+gem 'chartkick'
+
